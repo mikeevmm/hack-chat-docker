@@ -4,7 +4,9 @@ USER node
 WORKDIR /hackchat
 RUN git clone https://github.com/hack-chat/main.git .
 COPY config.js scripts/config.js
-RUN npm install
+RUN --mount=type=secret,id=admin_password,env=ADMIN \
+    --mount=type=secret,id=channels,env=CHANNELS \
+    npm install
 
 FROM node:slim AS run
 USER node
@@ -16,7 +18,7 @@ WORKDIR /hackchat
 RUN npm install fs-extra && sed -i -e "s/renameSync/moveSync/g" /hackchat/node_modules/hackchat-server/src/serverLib/ImportsManager.js
 
 ARG SERVEPATH="localhost:8903"
-RUN sed -i "s/var wsPath = ':6060';/var wsPath = '${SERVEPATH}';/g" /hackchat/client/client.js
+RUN sed -i "s,var wsPath = ':6060';,var wsPath = '${SERVEPATH}';,g" /hackchat/client/client.js
 
 EXPOSE 6060
 CMD node_modules/pm2/bin/pm2 startOrReload pm2.config.cjs --no-daemon

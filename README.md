@@ -3,12 +3,6 @@
 This repository contains a `docker compose` setup that can serve the
 [hack.chat][hack.chat] project.
 
-> [!CAUTION]
-> Personal note: After dealing with `hack.chat`'s source code, I don't
-> especially recommend serving this anywhere where having your server
-> pwned would be catastrophic.
-
-
 ## Deploying
 
 ```bash

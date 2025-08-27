@@ -114,7 +114,6 @@ const checkPermissions = async () => {
     const salt = readFileSync(SaltLocation);
 
     const password = process.env.ADMIN;
-    console.log('Admin password:', password);
 
     config.data.adminTrip = createHash('sha256').update(password + salt, 'utf8').digest('base64').substr(0, 6);
 
