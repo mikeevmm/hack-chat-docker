@@ -1,0 +1,22 @@
+services:
+  chat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVEPATH: "localhost:8903" # If serving at, e.g., `example.com/hack`,
+                                    # change this to "example.com/hack:8903".
+    environment:
+      ADMIN: /run/secrets/admin_password
+      CHANNELS: /run/secrets/channels
+    ports:
+      - "8903:6060" # Container serves backend at port 6060
+    secrets:
+      - admin_password
+      - channels
+
+secrets:
+  admin_password:
+    environment: ADMIN
+  channels:
+    environment: CHANNELS
